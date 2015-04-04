@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<title>Fondsgraf sist uke</title>
+</head>
+<body>
+
+<img id="graf" src=""/>
+
+<script>
+var graf = document.getElementById("graf");
+var dateObject = new Date();
+
+var todayDate = dateObject.getDate();
+var todayMonth = dateObject.getMonth() + 1;
+var todayYear = dateObject.getFullYear();
+
+var today = todayYear + "-"+ todayMonth + "-" + todayDate;
+
+var todayInMilliSeconds = Date.now();
+var oneWeekInMilliSeconds = 604800000;
+var lastWeekInMilliSeconds = todayInMilliSeconds - oneWeekInMilliSeconds;
+
+dateObject.setTime(lastWeekInMilliSeconds);
+
+var lastWeekDate = dateObject.getDate();
+var lastWeekMonth = dateObject.getMonth() + 1;
+var lastWeekYear = dateObject.getFullYear();
+
+var lastWeek = lastWeekYear + "-"+ lastWeekMonth + "-" + lastWeekDate;
+
+var src = "https://secure.msse.se/SKANDIA/vips/ska/all/no/chart/lines?currency=NOK&years=6&perfid=0P00000F8W&perfid=0P0000Q2XF&perfid=0P00000SX6&perfid=0P00000ZOO&perfid=0P00000EEM&drawnav=False&from=" + lastWeek + " &to=" + today;
+graf.attributes[1].value = src;
+</script>
+
+</body>
+</html>

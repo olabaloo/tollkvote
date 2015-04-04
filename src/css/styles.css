@@ -1,0 +1,14 @@
+#page {
+	margin-top: 80px;
+}
+
+.total {
+	min-width: 2em;
+	display: inline-block;
+	text-align: right;
+}
+
+.size {
+	min-width: 2em;
+	display: inline-block;
+}

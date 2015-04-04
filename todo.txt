@@ -1,0 +1,12 @@
+Ha med:
+- vis antall valgte av de ulike volumene (mellom + og -)
+- lokal lagring
+- reset-knapp
+- varsle når noe går gærn vei - man går til minus, eller går på videre minus
+- vise antall liter valgt, antall liter tillatt og differansen
+- delt på flere personer
+
+Noe senere:
+- valg for subsidiære ting: tobakk, sprit, vin
+- info om gjeldende tollregler
+- utregning av fortollingskostnad
