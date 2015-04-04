@@ -5,43 +5,56 @@
 		},
     "formats": [
 	 {
-	    "size": 1.5
+	    "size": 1.5,
+	    "className": "format_1_5_liter"
 	},
 	 {
-	    "size": 1
+	    "size": 1,
+	    "className": "format_1_liter"
 	},
 	 {
-	    "size": 0.75
+	    "size": 0.75,
+	    "className": "format_0_75_liter"
 	},
 	 {
-	    "size": 0.7
+	    "size": 0.7,
+	    "className": "format_0_7_liter"
 	},
 	{
-	    "size": 0.6
+	    "size": 0.6,
+	    "className": "format_0_6_liter"
 	},
 	 {
-	    "size": 0.55
+	    "size": 0.55,
+	    "className": "format_0_55_liter"
 	},
 	{
-	    "size": 0.5
+	    "size": 0.5,
+	    "className": "format_0_5_liter"
 	},
 	 {
-	    "size": 0.35
+	    "size": 0.35,
+	    "className": "format_0_35_liter"
 	},
 	{
-	    "size": 0.33
+	    "size": 0.33,
+	    "className": "format_0_33_liter"
 	},
 	{
-	    "size": 0.3
+	    "size": 0.3,
+	    "className": "format_0_3_liter"
 	},
 	{
-	    "size": 0.25
+	    "size": 0.25,
+	    "className": "format_0_25_liter"
 	},
 	{
-	    "size": 0.2
+	    "size": 0.2,
+	    "className": "format_0_2_liter"
 	},
 	{
-	    "size": 0.1
+	    "size": 0.1,
+	    "className": "format_0_1_liter"
 	}
     ]
 }

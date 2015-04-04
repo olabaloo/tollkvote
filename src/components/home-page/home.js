@@ -11,28 +11,35 @@ define(["knockout", "jquery", "text!./home.html"], function(ko, $, homeTemplate)
     this.loadData();
     this.formats = ko.observableArray();
     this.units = ko.observableArray();
-    var self=this;
 //    this.numberOfLitres.subscribe(this.validate());
 }
 
 HomeViewModel.prototype.loadData = function() {
   var that = this;
-  $.getJSON("/data/data.json", function(jsondata) {
+  $.getJSON('/data/data.json', function(jsondata) {
     that.formats(jsondata.formats);
     that.units(jsondata.units);
   });
 };
 
 HomeViewModel.prototype.add = function(binder) {
-  this.update(binder.size);
-  console.dir(this);
+  this.updateTotal(binder.size);
+  this.updateAdded(binder.className, +1);
 };
 
 HomeViewModel.prototype.subtract = function(binder) {
-  this.update(-binder.size);
+  this.updateTotal(-binder.size);
+  this.updateAdded(binder.className, -1);
 };
 
-HomeViewModel.prototype.update = function(addition) {
+HomeViewModel.prototype.updateAdded = function(className, addition) {
+  var currentElement = $('.' + className + ' .added'),
+  currentValue = parseInt(currentElement.val()),
+   newValue = currentValue + addition;
+  currentElement.val(newValue);
+  };
+
+HomeViewModel.prototype.updateTotal = function(addition) {
   var newNumberOfLitres = this.numberOfLitres() + addition;
   this.numberOfLitres(newNumberOfLitres);
     //this.validate(0);

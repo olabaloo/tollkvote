@@ -12,3 +12,8 @@
 	min-width: 2em;
 	display: inline-block;
 }
+
+.added {
+	width: 2em;
+	text-align: center;
+}

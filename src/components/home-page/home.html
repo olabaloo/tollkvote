@@ -1,16 +1,14 @@
 <h2>Tollkvotekalkulatoren</h2>
 
-<p>Du har med <span class='total' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> øl. Du kan ha med 6,5 <span data-bind='text: units().long'></span> innenfor alkohol- og tobakkskvoten. </p>
+<p>Du har med <span class='total' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> øl. Du kan ha med 6,5 <span data-bind='text: units().long'></span> øl innenfor alkohol- og tobakkskvoten. </p>
 
 <!-- ko if: formats -->
 <ul data-bind='foreach: formats'>
-<li>
-	<button data-bind='click: $parent.subtract.bind($parent, $data)'>-</button>
-	<!--span data-bind='text: numberAdded'>0</span-->
-	<span data-bind=''>0</span>
-	<button data-bind='click: $parent.add.bind($parent, $data)'>+</button>
-	<span data-bind='text: size' class='size'></span><span data-bind='text: $parent.units().short'></span>
-	
-</li>
+	<li data-bind='css: className'>
+		<button data-bind="click: $parent.subtract.bind($parent, $data)">-</button>
+		<input type='text' data-bind="valueUpdate: 'afterKeyDown'" class='added' value='0'/>
+		<button data-bind="click: $parent.add.bind($parent, $data)">+</button>
+		<span data-bind='text: size' class='size'></span><span data-bind='text: $parent.units().short'></span>
+	</li>
 </ul>
 <!-- /ko -->

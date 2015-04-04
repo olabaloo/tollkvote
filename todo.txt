@@ -1,4 +1,7 @@
 Ha med:
+- ikke tillat negative verdier
+- validering: Kun tillatt med tall i feltet
+- localized tekst (1,5 liter, ikke 1.5 liter)
 - vis antall valgte av de ulike volumene (mellom + og -)
 - lokal lagring
 - reset-knapp
