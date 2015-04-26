@@ -8,6 +8,7 @@ var require = {
         "jquery":               "bower_modules/jquery/dist/jquery",
         "knockout":             "bower_modules/knockout/dist/knockout",
         "knockout-projections": "bower_modules/knockout-projections/dist/knockout-projections",
+        "localstorage":         "bower_modules/knockout.localstorage/knockout.localStorage",
         "komapping":            "bower_modules/bower-knockout-mapping/dist/knockout.mapping",
         "signals":              "bower_modules/js-signals/dist/signals.min",
         "text":                 "bower_modules/requirejs-text/text"

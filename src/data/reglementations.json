@@ -1,6 +1,5 @@
 {
 	"reglementations": {
-		"max": 6.5,
 		"unit": "l",
 		"beer": {
 			"initialAmount": 2

@@ -1,23 +1,24 @@
-define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, komapping, $, homeTemplate) {
+define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], function(ko, komapping, localstorage, $, homeTemplate) {
   'use strict';
   ko.mapping = komapping;
   function HomeViewModel(route) {
-    this.INVALID = -1;
-    this.DUBIUOS = 0;
-    this.VALID = 1;
-    this.limit = 0;
-    this.totalTravellers = ko.observable(1);
-    this.numberOfLitres = ko.observable(0);
-    this.totalAmount = ko.observable(0);
-    this.restAmount = ko.observable(0);
-    this.valid = ko.observable(this.DUBIUOS);
-    this.previousValid = this.DUBIUOS;
+    this.initial_travellers = 1;
+    this.initial_numberOfLitres = 0;
+    this.initial_totalAmount = 0;
+    this.initial_restAmount = 0;
+    this.totalTravellers = 
+    ko.observable(this.initial_travellers, { persist: 'totalTravellers'});
+    this.numberOfLitres = 
+    ko.observable(this.initial_numberOfLitres, { persist: 'numberOfLitres'});
+    this.totalAmount = ko.observable(this.initial_totalAmount);
+    this.restAmount =  
+    ko.observable(this.initial_restAmount, { persist: 'restAmount'});
     this.addedClassName = 'added';
     this.formats = ko.observableArray();
     this.units = ko.observableArray();
     this.reglementations = ko.observableArray();
     this.ranges = ko.observableArray();
-    this.amounts = ko.observableArray([]);
+    this.amounts = ko.observableArray();
     this.initialize();
   }
 
@@ -26,7 +27,32 @@ define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, kom
   };
 
   HomeViewModel.prototype.findTotalAmount = function() {
-    this.totalAmount(this.reglementations().max);
+    var totalAmount, initial_ranges_subsidedAmount = 0, inital_amounts_beerAmount = 0;
+    var initial_beerAmount = this.reglementations().beer.initialAmount,
+    allPersons_beerAmount = initial_beerAmount * this.totalTravellers();
+
+    for(var i in this.ranges()) {
+      initial_ranges_subsidedAmount = 
+        initial_ranges_subsidedAmount + 
+        this.ranges()[i].commonAmount;
+    }
+    var allPersons_ranges_subsidedAmount = 
+      initial_ranges_subsidedAmount * this.totalTravellers();
+
+    for(var i in this.amounts()) {
+      inital_amounts_beerAmount = 
+        inital_amounts_beerAmount + 
+        this.amounts()[i].beerAmount;
+    }
+    var allPersons_amounts_beerAmount = 
+      inital_amounts_beerAmount * this.totalTravellers();
+
+    totalAmount = 
+      allPersons_beerAmount + 
+      allPersons_ranges_subsidedAmount + 
+      allPersons_amounts_beerAmount;
+
+    this.totalAmount(totalAmount);
   };
 
   HomeViewModel.prototype.findRestAmount = function() {
@@ -57,22 +83,12 @@ define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, kom
 
   HomeViewModel.prototype.loadLocalStorage = function() {
     if(this.supports_localstorage()) {
-      var storedNumberOfLitres = localStorage['numberOfLitres'],
-      storedTotalTravellers = localStorage['totalTravellers'],
-      storedRestAmount = localStorage['restAmount'];
-      if(typeof storedRestAmount !== 'undefined') {
-        this.restAmount(Number(storedRestAmount));
-      }
-      if(typeof storedNumberOfLitres !== 'undefined') {
-        this.numberOfLitres(Number(storedNumberOfLitres));
-      }
-      if(typeof storedTotalTravellers !== 'undefined') {
-        this.totalTravellers(Number(storedTotalTravellers));
-      }
       var addedClassName = this.addedClassName;
+
       for(var i in this.formats()()) {
         var currentItem = this.formats()()[i],
         itemKey = currentItem.className() + '_' + addedClassName;
+
         if(typeof localStorage[itemKey] !== 'undefined') {
           currentItem.addedNumber(Number(localStorage[itemKey]));
         }
@@ -81,15 +97,12 @@ define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, kom
   };
 
   HomeViewModel.prototype.reset = function() {
-    this.numberOfLitres(this.limit);
-    this.restAmount(this.reglementations().max);
-    this.totalTravellers(this.VALID);
+    this.numberOfLitres(this.initial_numberOfLitres);
+    this.restAmount(this.initial_restAmount);
+    this.totalTravellers(this.initial_travellers);
     this.loadData();
 
     if(this.supports_localstorage()) {
-      localStorage['numberOfLitres'] = this.limit;
-      localStorage['totalTravellers'] = this.VALID;
-      localStorage['restAmount'] = this.reglementations().max;
       var addedClassName = this.addedClassName;
       for(var key in localStorage) {
         var position = key.indexOf('_' + addedClassName);
@@ -112,10 +125,8 @@ define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, kom
     var newNumberOfTravellers = this.totalTravellers() +1;
 
     this.totalTravellers(newNumberOfTravellers);
-
-    if(this.supports_localstorage()) {
-      localStorage['totalTravellers'] = newNumberOfTravellers;
-    }
+    this.findTotalAmount();
+    this.findRestAmount();
   };
 
   HomeViewModel.prototype.subtractTraveller = function() {
@@ -124,9 +135,8 @@ define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, kom
 
     if(currentNumberOfTravellers > 1) {
       this.totalTravellers(newNumberOfTravellers);
-      if(this.supports_localstorage()) {
-        localStorage['totalTravellers'] = newNumberOfTravellers;
-      }
+      this.findTotalAmount();
+      this.findRestAmount();
     }
   };
 
@@ -159,18 +169,14 @@ define(["knockout", "komapping", "jquery", "text!./home.html"], function(ko, kom
     var currentNumberOfLitres = this.numberOfLitres(),
     newNumberOfLitres = currentNumberOfLitres + addedNumberOfLitres;
 
-      this.numberOfLitres(newNumberOfLitres);
-      this.findRestAmount(newNumberOfLitres);
-
-      if(this.supports_localstorage()) {
-        localStorage['numberOfLitres'] = newNumberOfLitres;
-        localStorage['restAmount'] = this.restAmount();
-      }
+    this.numberOfLitres(newNumberOfLitres);
+    this.findRestAmount(newNumberOfLitres);
+    this.findTotalAmount();
   };
 
   HomeViewModel.prototype.validNumberOfLiters = function(addedNumberOfLitres) {
     var newNumberOfLitres = this.numberOfLitres() + addedNumberOfLitres;
-    if(newNumberOfLitres >= this.limit) {
+    if(newNumberOfLitres >= this.initial_numberOfLitres) {
       return true;
     } else {
       return false;

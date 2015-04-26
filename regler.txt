@@ -11,6 +11,8 @@ Sigaretter eller annen tobakk (for eksempel snus)		200 stk sigaretter eller
 														t.o.m. 22 %.
 Sigarettpapir	200 stk
 
+Hjemmel: http://lovdata.no/forskrift/2008-12-17-1502/§5-1-2 
+
 Brennevinskvoten kan byttes i 1,5 liter av enten vin eller øl, mens vinkvoten kan byttes i øl, liter for liter.
 
 Fra 1. juli 2014 ble det en endring i de toll- og avgiftsfrie kvotene:
@@ -43,6 +45,8 @@ Skal du ha med deg meir alkohol eller tobakk enn kvota, må du anten gå på rau
 
 Øl (også sterkøl) over 2,5 volumprosent: Til saman inntil 27 liter, 20 kr pr. liter. 
 Eksempel: 7 kr pr. 0,33 l.
+
+Fortollingshjemmel: http://lovdata.no/forskrift/2008-12-17-1502/§4-20-3 
 
 **************
 
@@ -85,3 +89,5 @@ kr 1,12 pr. emballasjeeining	kr 26,88
 Toll kr 1,28 pr. liter	kr 10,14
 Meirverdiavgift 25 %	kr 188,07
 Totalt å betale:	kr 940,38
+
+Straffer: http://lovdata.no/forskrift/2008-12-17-1502/§16-9-2

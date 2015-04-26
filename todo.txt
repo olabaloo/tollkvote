@@ -1,9 +1,6 @@
-Regn ut korrekt totalt antall liter! Nå: Kun addition. Må multipliseres med size.
-
-
 Småting her og nå:
 - fjern max, erstatt med reell utregning (initialamount + alle tillegg)!
-- regn ut differansen mellom antall liter tillatt og antall liter valgt
+- differansen mellom tillatt og valgt:
  -- håndter når differansen er negativ - fortell at fortolling er nødvendig!
  -- senere: utregning av fortollingskostnad
 - flere personer:
@@ -24,3 +21,42 @@ Gammel ide:
 Lage hver oppføring til en viewmodel (evt som dette: http://stackoverflow.com/questions/15747211/how-can-i-bind-a-ko-observablearray-of-strings):
 - iterer gjennom json, push hver oppføring som en viewmodel til arrayet
 Heller: Brukte ko.mapping (ref http://stackoverflow.com/questions/17805989/loading-knockout-mapping-plugin-using-require-js#17872622).
+
+Vanlige vinflaskeformater:
+0,1875
+0,2
+0,25
+0,375
+0,378
+0,5
+0,62
+0,7
+0,75
+0,757
+1
+1,5
+
+For å få knockout.mapping til å fungere:
+I home.js:
+define(["komapping"], function(komapping)
+På øverste nivå (utenom viewmodelen): ko.mapping = komapping;
+Referanse skal allerede være lagt til i bower.json.
+I src/app/require.config.js: 
+paths: {
+"komapping":  "bower_modules/bower-knockout-mapping/dist/knockout.mapping"
+},
+shim: {
+        "komapping": {
+            deps: ['knockout'],
+            exports: 'komapping'
+        }
+    }
+
+For å få knockout.localstorage til å funke:
+I home.js:
+define(["localstorage"], function(localstorage)
+I src/app/require.config.js: 
+paths: {
+"localstorage":  "bower_modules/knockout.localstorage/knockout.localStorage",
+}
+I localstorage.js: Kopier inn factory-js'et fra knockout.mapping.
