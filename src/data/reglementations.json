@@ -1,0 +1,30 @@
+{
+	"reglementations": {
+		"max": 6.5,
+		"unit": "l",
+		"beer": {
+			"initialAmount": 2
+		}
+	},
+	"ranges": [
+		{
+			"name": "vin",
+			"commonAmount": 1.5,
+			"subsidedAmount": 0
+		}
+	],
+	"amounts": [
+		{
+			"name": "200 stk sigaretter / 250 g tobakk",
+			"originalAmount": 1,
+			"beerAmount": 1.5,
+			"subsided": true
+		},
+		{
+			"name": "liter brennevin",
+			"originalAmount": 1,
+			"beerAmount": 1.5,
+			"subsided": true
+		}
+	]
+}

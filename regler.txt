@@ -1,8 +1,15 @@
 Kvote (http://toll.no/no/handle-i-utlandet/alkohol-og-tobakkskvote/kvote/)
 
-Øl over 2,5 % (også sterkøl): 2 liter
-Sigaretter eller annen tobakk (for eksempel snus): 200 stk sigaretter eller 250 gram annen tobakk, 
-eller 1,5 liter drikk med alkoholstyrke over 2,5 % t.o.m. 22 %.
+Varetype												Mengde
+Brennevin/sprit/likør o.l. over 22 % til og med 60 %	1 liter
+Vin o.l. over 2,5 % til og med 22 %						1,5 liter
+Øl over 2,5 % (også sterkøl), 
+eller rusbrus o.l. over 2,5 til og med 4,7 %			2 liter
+Sigaretter eller annen tobakk (for eksempel snus)		200 stk sigaretter eller
+														250 gram annen tobakk, 
+														eller 1,5 liter drikk med alkoholstyrke over 2,5 %
+														t.o.m. 22 %.
+Sigarettpapir	200 stk
 
 Brennevinskvoten kan byttes i 1,5 liter av enten vin eller øl, mens vinkvoten kan byttes i øl, liter for liter.
 

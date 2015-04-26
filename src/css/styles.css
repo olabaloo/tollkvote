@@ -2,7 +2,7 @@
 	margin-top: 80px;
 }
 
-.total {
+.amount {
 	min-width: 2em;
 	display: inline-block;
 	text-align: right;
@@ -16,4 +16,13 @@
 .added {
 	width: 2em;
 	text-align: center;
+}
+
+.amounts * { 
+	vertical-align: top;
+}
+
+.subsidedAmount { 
+	display: inline-block; 
+	width: 120px; 
 }

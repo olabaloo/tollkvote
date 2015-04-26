@@ -1,14 +1,60 @@
 <h2>Tollkvotekalkulatoren</h2>
 
-<p>Du har med <span class='total' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> øl. Du kan ha med 6,5 <span data-bind='text: units().long'></span> øl innenfor alkohol- og tobakkskvoten. </p>
+<p>Du har med <span class='amount' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> øl. Du kan ha med <span class='amount' data-bind='text: restAmount'></span> <span data-bind='text: units().long'></span> til innenfor alkohol- og tobakkskvoten (totalt <span class='amount' data-bind='text: totalAmount'></span> <span data-bind='text: units().long'></span> øl).</p>
 
 <!-- ko if: formats -->
-<ul data-bind='foreach: formats'>
+<ul data-bind='foreach: formats()'>
 	<li data-bind='css: className'>
-		<button data-bind="click: $parent.subtract.bind($parent, $data)">-</button>
-		<input type='text' data-bind="valueUpdate: 'afterKeyDown'" class='added' value='0'/>
-		<button data-bind="click: $parent.add.bind($parent, $data)">+</button>
+		<button data-bind="click: $parent.decreaseAddedNumber.bind($data, $parent)">-</button>
+		<span data-bind='text: addedNumber, css: $parent.addedClassName'></span>
+		<button data-bind="click: $parent.increaseAddedNumber.bind($data, $parent)">+</button>
 		<span data-bind='text: size' class='size'></span><span data-bind='text: $parent.units().short'></span>
 	</li>
 </ul>
 <!-- /ko -->
+
+<ul>
+	<li>
+		<button data-bind='click: reset'>Tilbakestill alt</button>
+	</li>
+	<li>
+		<p>Hvor mange vil du regne ut kvoten for?</p>
+		<button data-bind='click: subtractTraveller'>-</button>
+		<span type='text' data-bind='text: totalTravellers' class='addedTraveller'></span> reisende
+		<button data-bind='click: addTraveller'>+</button>
+	</li>
+	<li>
+		<p>Hva skal du ha med av følgende:</p>
+		<!-- ko if: ranges -->
+		<ul data-bind='foreach: ranges'>
+			<li>
+				<button data-bind='click: $data.subtractTraveller'>-</button>
+				<span type='text' data-bind='text: subsidedAmount'></span>
+				<span class='subsidedAmount'>
+					<span data-bind='text: $parent.units().long'></span>
+					<span type='text' data-bind='text: name'></span>
+				</span>
+				<button data-bind='click: $data.addTraveller'>+</button>
+			</li>
+		</ul>
+		<!-- /ko -->
+		<!-- ko if: amounts -->
+		<ul data-bind='foreach: amounts' class='amounts'>
+			<li>
+				<button data-bind='click: $data.subtractTraveller'>-</button>
+				<span type='text' data-bind='text: originalAmount'></span> 
+				<span type='text' data-bind='text: name' class='subsidedAmount'></span> 
+				<button data-bind='click: $data.addTraveller'>+</button>
+			</li>
+		</ul>
+		<!-- /ko -->
+	</li>
+	<li>
+		Husk: 
+		<ul>
+			<li>Sider regnes som vin, ikke øl.</li>
+			<li>Drikke under 2,5% alkohol regnes som alkoholfri (og er dermed unntatt kvotebestemmelsene).</li>
+			<li>De fullstendige reglene finner du hos <a href='http://toll.no/no/handle-i-utlandet/alkohol-og-tobakkskvote/kvote/'>Toll- og avgiftsdirektoratet</a>.</li>
+		</ul>
+	</li>
+</ul>

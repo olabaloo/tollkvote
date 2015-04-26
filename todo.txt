@@ -1,15 +1,26 @@
-Ha med:
-- ikke tillat negative verdier
-- validering: Kun tillatt med tall i feltet
-- localized tekst (1,5 liter, ikke 1.5 liter)
-- vis antall valgte av de ulike volumene (mellom + og -)
-- lokal lagring
-- reset-knapp
-- varsle når noe går gærn vei - man går til minus, eller går på videre minus
-- vise antall liter valgt, antall liter tillatt og differansen
-- delt på flere personer
+Regn ut korrekt totalt antall liter! Nå: Kun addition. Må multipliseres med size.
+
+
+Småting her og nå:
+- fjern max, erstatt med reell utregning (initialamount + alle tillegg)!
+- regn ut differansen mellom antall liter tillatt og antall liter valgt
+ -- håndter når differansen er negativ - fortell at fortolling er nødvendig!
+ -- senere: utregning av fortollingskostnad
+- flere personer:
+ -- logikk: true/false per person
 
 Noe senere:
-- valg for subsidiære ting: tobakk, sprit, vin
-- info om gjeldende tollregler
-- utregning av fortollingskostnad
+Bruk extenders: http://knockoutjs.com/documentation/extenders.html
+- validering i dataene, ikke i metodene som manipulerer disse
+- localized tekst (1,5 liter, ikke 1.5 liter)
+- added-feltet: 
+	- validering: Kun tillatt med tall
+	- lytte til endringer der (for totalen)
+
+- kjør bygg, test at det hele funker. Trolig er det byggesteg som må utvides.
+- bygg med ulike manifestfiler.
+
+Gammel ide:
+Lage hver oppføring til en viewmodel (evt som dette: http://stackoverflow.com/questions/15747211/how-can-i-bind-a-ko-observablearray-of-strings):
+- iterer gjennom json, push hver oppføring som en viewmodel til arrayet
+Heller: Brukte ko.mapping (ref http://stackoverflow.com/questions/17805989/loading-knockout-mapping-plugin-using-require-js#17872622).

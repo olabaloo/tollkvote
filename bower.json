@@ -13,5 +13,8 @@
   },
   "resolutions": {
     "knockout": "~3.3.0-alpha"
+  },
+  "devDependencies": {
+    "bower-knockout-mapping": "~2.5.0"
   }
 }

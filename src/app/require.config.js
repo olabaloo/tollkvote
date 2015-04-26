@@ -8,10 +8,15 @@ var require = {
         "jquery":               "bower_modules/jquery/dist/jquery",
         "knockout":             "bower_modules/knockout/dist/knockout",
         "knockout-projections": "bower_modules/knockout-projections/dist/knockout-projections",
+        "komapping":            "bower_modules/bower-knockout-mapping/dist/knockout.mapping",
         "signals":              "bower_modules/js-signals/dist/signals.min",
         "text":                 "bower_modules/requirejs-text/text"
     },
     shim: {
-        "bootstrap": { deps: ["jquery"] }
+        "bootstrap": { deps: ["jquery"] },
+        "komapping": {
+            deps: ['knockout'],
+            exports: 'komapping'
+        }
     }
 };
