@@ -1,8 +1,11 @@
 Småting her og nå:
-- fjern max, erstatt med reell utregning (initialamount + alle tillegg)!
 - differansen mellom tillatt og valgt:
+ -- rund av til to desimaler. Eller en?
  -- håndter når differansen er negativ - fortell at fortolling er nødvendig!
  -- senere: utregning av fortollingskostnad
+- håndter travellers på lignende måte som updateLitres. Validering ++.
+- revurder hva som ikke hører hjemme i dataene, 
+	men som heller skal legges til programmatisk.
 - flere personer:
  -- logikk: true/false per person
 

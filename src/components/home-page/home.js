@@ -19,11 +19,12 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     this.reglementations = ko.observableArray();
     this.ranges = ko.observableArray();
     this.amounts = ko.observableArray();
-    this.initialize();
+    this.loadData();
   }
 
-  HomeViewModel.prototype.initialize = function() {
-    this.loadData();
+  HomeViewModel.prototype.updateData = function() {
+    this.findTotalAmount();
+    this.findRestAmount();
   };
 
   HomeViewModel.prototype.findTotalAmount = function() {
@@ -33,24 +34,24 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
 
     for(var i in this.ranges()) {
       initial_ranges_subsidedAmount = 
-        initial_ranges_subsidedAmount + 
-        this.ranges()[i].commonAmount;
+      initial_ranges_subsidedAmount + 
+      this.ranges()[i].commonAmount;
     }
     var allPersons_ranges_subsidedAmount = 
-      initial_ranges_subsidedAmount * this.totalTravellers();
+    initial_ranges_subsidedAmount * this.totalTravellers();
 
     for(var i in this.amounts()) {
       inital_amounts_beerAmount = 
-        inital_amounts_beerAmount + 
-        this.amounts()[i].beerAmount;
+      inital_amounts_beerAmount + 
+      this.amounts()[i].beerAmount;
     }
     var allPersons_amounts_beerAmount = 
-      inital_amounts_beerAmount * this.totalTravellers();
+    inital_amounts_beerAmount * this.totalTravellers();
 
     totalAmount = 
-      allPersons_beerAmount + 
-      allPersons_ranges_subsidedAmount + 
-      allPersons_amounts_beerAmount;
+    allPersons_beerAmount + 
+    allPersons_ranges_subsidedAmount + 
+    allPersons_amounts_beerAmount;
 
     this.totalAmount(totalAmount);
   };
@@ -65,8 +66,7 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
       that.reglementations(ko.mapping.toJS(jsondata.reglementations));
       that.ranges(ko.mapping.toJS(jsondata.ranges));
       that.amounts(ko.mapping.toJS(jsondata.amounts));
-      that.findTotalAmount();
-      that.findRestAmount();
+      that.updateData();
     });
 
     $.getJSON('data/formatsAndUnits.json', function(jsondata) {
@@ -113,20 +113,11 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     }
   };
 
-  HomeViewModel.prototype.supports_localstorage = function() {
-    try {
-      return 'localStorage' in window && window['localStorage'] !== null;
-    } catch (e) {
-      return false;
-    }
-  };
-
   HomeViewModel.prototype.addTraveller = function() {
     var newNumberOfTravellers = this.totalTravellers() +1;
 
     this.totalTravellers(newNumberOfTravellers);
-    this.findTotalAmount();
-    this.findRestAmount();
+    this.updateData();
   };
 
   HomeViewModel.prototype.subtractTraveller = function() {
@@ -135,8 +126,7 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
 
     if(currentNumberOfTravellers > 1) {
       this.totalTravellers(newNumberOfTravellers);
-      this.findTotalAmount();
-      this.findRestAmount();
+      this.updateData();
     }
   };
 
@@ -170,8 +160,7 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     newNumberOfLitres = currentNumberOfLitres + addedNumberOfLitres;
 
     this.numberOfLitres(newNumberOfLitres);
-    this.findRestAmount(newNumberOfLitres);
-    this.findTotalAmount();
+    this.updateData();
   };
 
   HomeViewModel.prototype.validNumberOfLiters = function(addedNumberOfLitres) {
@@ -179,6 +168,14 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     if(newNumberOfLitres >= this.initial_numberOfLitres) {
       return true;
     } else {
+      return false;
+    }
+  };
+
+  HomeViewModel.prototype.supports_localstorage = function() {
+    try {
+      return 'localStorage' in window && window['localStorage'] !== null;
+    } catch (e) {
       return false;
     }
   };
