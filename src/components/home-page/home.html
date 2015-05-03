@@ -7,7 +7,7 @@
 </header>
 <!-- ko if: formats -->
 <article>
-	<h2>Legg til flasker:</h2>
+	<h2>Legg til enheter:</h2>
 	<ul data-bind='foreach: formats()'>
 		<li data-bind='css: className'>
 			<button data-bind="click: $parent.decreaseAddedNumber.bind($data, $parent)">-</button>
@@ -29,7 +29,7 @@
 				<li>
 			<button data-bind='click: subtractTraveller'>-</button>
 			<span data-bind='text: totalTravellers, css: addedClassName'></span>
-			<span class='suffix'>reisende</span>
+			<span class='subsidedAmount'>reisende</span>
 			<button data-bind='click: addTraveller'>+</button>
 		</li>
 	</ul>
@@ -41,7 +41,7 @@
 				<li>
 					<button data-bind="click: $parent.decreaseRange.bind($data, $parent)">-</button>
 					<span data-bind='text: subsidedRange, css: $parent.addedClassName'></span>
-					<span class='suffix'>
+					<span class='subsidedAmount'>
 						<span data-bind='text: $parent.units().long'></span>
 						<span type='text' data-bind='text: name'></span>
 					</span>

@@ -70,7 +70,9 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
   };
 
   HomeViewModel.prototype.findRestAmount = function() {
-    this.restAmount(this.totalAmount() - this.numberOfLitres());
+    var restAmount = this.totalAmount() - this.numberOfLitres();
+    restAmount = Number((restAmount).toFixed(2));
+    this.restAmount(restAmount);
   };
 
   HomeViewModel.prototype.loadData = function() {
