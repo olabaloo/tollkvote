@@ -2,7 +2,6 @@
 var require = {
     baseUrl: ".",
     paths: {
-        "bootstrap":            "bower_modules/components-bootstrap/js/bootstrap.min",
         "crossroads":           "bower_modules/crossroads/dist/crossroads.min",
         "hasher":               "bower_modules/hasher/dist/js/hasher.min",
         "jquery":               "bower_modules/jquery/dist/jquery",
@@ -14,7 +13,6 @@ var require = {
         "text":                 "bower_modules/requirejs-text/text"
     },
     shim: {
-        "bootstrap": { deps: ["jquery"] },
         "komapping": {
             deps: ['knockout'],
             exports: 'komapping'

@@ -1,61 +1,75 @@
-<h2>Tollkvotekalkulatoren</h2>
-
-<p>Du har med <span class='amount' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> øl. Du kan ha med <span class='amount' data-bind='text: restAmount'></span> <span data-bind='text: units().long'></span> til innenfor alkohol- og tobakkskvoten (totalt <span class='amount' data-bind='text: totalAmount'></span> <span data-bind='text: units().long'></span> øl).</p>
-
+<header>
+	<button data-bind='click: reset' class='reset'>Tilbakestill<br>alt</button>
+	<p>
+		<span>Du har med</span> <span class='amount' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> <span>øl.</span><br>
+		<span>Du kan ha med</span> <span class='amount' data-bind='text: restAmount'></span> <span data-bind='text: units().long'></span> <span>til innenfor alkohol- og tobakkskvoten (totalt</span> <span class='amount' data-bind='text: totalAmount'></span> <span data-bind='text: units().long'></span> <span>øl).</span>
+	</p>
+</header>
 <!-- ko if: formats -->
-<ul data-bind='foreach: formats()'>
-	<li data-bind='css: className'>
-		<button data-bind="click: $parent.decreaseAddedNumber.bind($data, $parent)">-</button>
-		<span data-bind='text: addedNumber, css: $parent.addedClassName'></span>
-		<button data-bind="click: $parent.increaseAddedNumber.bind($data, $parent)">+</button>
-		<span data-bind='text: size' class='size'></span><span data-bind='text: $parent.units().short'></span>
-	</li>
-</ul>
+<article>
+	<h2>Legg til flasker:</h2>
+	<ul data-bind='foreach: formats()'>
+		<li data-bind='css: className'>
+			<button data-bind="click: $parent.decreaseAddedNumber.bind($data, $parent)">-</button>
+			<span data-bind='text: addedNumber, css: $parent.addedClassName'></span>
+			<button data-bind="click: $parent.increaseAddedNumber.bind($data, $parent)">+</button>
+			<span class='suffix'>
+				<span data-bind='text: size' class='size'></span>
+				<span data-bind='text: $parent.units().short'></span>
+			</span>
+		</li>
+	</ul>
+</article>
 <!-- /ko -->
-
-<ul>
-	<li>
-		<button data-bind='click: reset'>Tilbakestill alt</button>
-	</li>
-	<li>
-		<p>Hvor mange vil du regne ut kvoten for?</p>
-		<button data-bind='click: subtractTraveller'>-</button>
-		<span type='text' data-bind='text: totalTravellers' class='addedTraveller'></span> reisende
-		<button data-bind='click: addTraveller'>+</button>
-	</li>
-	<li>
-		<p>Hva skal du ha med av følgende:</p>
-		<!-- ko if: ranges -->
-		<ul data-bind='foreach: ranges'>
-			<li>
-				<button data-bind='click: $data.subtractTraveller'>-</button>
-				<span type='text' data-bind='text: subsidedAmount'></span>
-				<span class='subsidedAmount'>
-					<span data-bind='text: $parent.units().long'></span>
-					<span type='text' data-bind='text: name'></span>
-				</span>
-				<button data-bind='click: $data.addTraveller'>+</button>
-			</li>
-		</ul>
-		<!-- /ko -->
-		<!-- ko if: amounts -->
-		<ul data-bind='foreach: amounts' class='amounts'>
-			<li>
-				<button data-bind='click: $data.subtractTraveller'>-</button>
-				<span type='text' data-bind='text: originalAmount'></span> 
-				<span type='text' data-bind='text: name' class='subsidedAmount'></span> 
-				<button data-bind='click: $data.addTraveller'>+</button>
-			</li>
-		</ul>
-		<!-- /ko -->
-	</li>
-	<li>
+<aside>
+	<ul>
+		<li>
+			<h2>Hvor mange vil du regne ut kvoten for?</h2>
+			<ul>
+				<li>
+			<button data-bind='click: subtractTraveller'>-</button>
+			<span data-bind='text: totalTravellers, css: addedClassName'></span>
+			<span class='suffix'>reisende</span>
+			<button data-bind='click: addTraveller'>+</button>
+		</li>
+	</ul>
+		</li>
+		<li>
+			<h2>Hva skal du ha med av følgende:</h2>
+			<!-- ko if: ranges -->
+			<ul data-bind='foreach: ranges()'>
+				<li>
+					<button data-bind="click: $parent.decreaseRange.bind($data, $parent)">-</button>
+					<span data-bind='text: subsidedRange, css: $parent.addedClassName'></span>
+					<span class='suffix'>
+						<span data-bind='text: $parent.units().long'></span>
+						<span type='text' data-bind='text: name'></span>
+					</span>
+					<button data-bind="click: $parent.increaseRange.bind($data, $parent)">+</button>
+				</li>
+			</ul>
+			<!-- /ko -->
+			<!-- ko if: amounts -->
+			<ul data-bind='foreach: amounts()' class='amounts'>
+				<li>
+					<button data-bind="click: $parent.decreaseAmount.bind($data, $parent)">-</button>
+					<span data-bind='text: subsidedAmount, css: $parent.addedClassName'></span> 
+					<span data-bind='text: name' class='subsidedAmount'></span> 
+					<button data-bind="click: $parent.increaseAmount.bind($data, $parent)">+</button>
+				</li>
+			</ul>
+			<!-- /ko -->
+		</li>
+	</ul>
+</aside>
+<footer>
+	<p>
 		Husk: 
-		<ul>
-			<li>Sider regnes som vin, ikke øl. Er sideren på mellom 2,5% og 4,7%, kan den innlemmes i ølkvoten. Sterkere sider må innlemmes i vinkvoten.</li>
-			<li>Drikke under 2,5% alkohol regnes som alkoholfri (og er dermed unntatt kvotebestemmelsene).</li>
-			<li>De fullstendige reglene finner du hos <a href='http://toll.no/no/handle-i-utlandet/alkohol-og-tobakkskvote/kvote/'>Toll- og avgiftsdirektoratet</a>.</li>
-			<li>Reglenes hjemmel finner du i <a href='https://lovdata.no/dokument/SF/forskrift/2008-12-17-1502'>tollforskriften</a>.</li>
-		</ul>
-	</li>
-</ul>
+	</p>
+	<ul>
+		<li>Drikke under 2,5% alkohol regnes som alkoholfri <br>
+			(og er dermed unntatt kvotebestemmelsene).</li>
+			<li>Sider regnes som vin, ikke øl. Er sideren på under 4,7%, <br>
+				kan den innlemmes i ølkvoten. Sterkere sider må innlemmes i vinkvoten.</li>
+			</ul>
+		</footer>

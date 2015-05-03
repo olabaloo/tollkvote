@@ -1,11 +1,36 @@
-#page {
-	margin-top: 80px;
+body {
+    font: 100%/1.2 arial;
 }
 
+header p {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 3% 0 0;
+    max-width: 72%;
+}
+
+main {
+	max-width: 582px;
+	margin: 30px auto 0;
+	width: 95%;
+}
+
+main li > * { 
+    vertical-align: top;
+}
+
+.amount, .added {
+    min-width: 2em;
+    display: inline-block;
+    padding: 1px 4px;
+    margin: 1px 0;
+}
 .amount {
-	min-width: 2em;
-	display: inline-block;
-	text-align: right;
+    text-align: right;
+}
+
+.added {
+    text-align: center;
 }
 
 .size {
@@ -13,16 +38,138 @@
 	display: inline-block;
 }
 
-.added {
-	width: 2em;
-	text-align: center;
-}
-
-.amounts * { 
-	vertical-align: top;
-}
-
 .subsidedAmount { 
 	display: inline-block; 
 	width: 120px; 
+}
+
+nav {
+    height: 75px;
+}
+
+nav ul {
+    list-style-type: none;
+    height: 100%;
+    display: table;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+nav ul li {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+nav a {
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px 20px;
+}
+
+button {
+    min-width: 1.8em;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+}
+
+main ul {
+    width: 12em;   
+    display: inline-block;   
+}
+
+main li li {
+    margin: 10px 0;
+}
+
+.reset {
+    padding: 2px 11px;
+    float: right;
+    border-radius: 3px;
+}
+
+aside ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+footer ul {
+    width: 100%;
+    padding: 0 0 0 18px;
+    list-style-type: square;
+}
+
+aside {
+    width: 19em;
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+li .added, li .suffix {
+    vertical-align: -10%;
+}
+
+main footer:before {
+    content: '\0334';
+    display: block;
+    margin: 10px auto;
+    -webkit-transform: scale(10,8);
+    transform: scale(10,8);
+    width: 0;
+}
+
+/* Color themes:; */
+
+.amount, .added {
+    background-color: wheat;
+}
+
+nav {
+    background-color: green;
+}
+nav a {
+    background-color: gray;
+    color: #fff;
+}
+
+button {
+    background: green;
+    color: #fff;
+}
+
+main footer:before {
+    color: green;
+    opacity: 0.8;
+}
+
+.reset {
+    color: buttontext;
+    border: 2px outset buttonface;
+    background-color: buttonface;
+}
+
+
+p > * {
+}
+
+main header {
+}
+
+article {
+    display: inline-block;
+    width: 45%;
+    padding: 0 0 0 2em;
+}
+
+h2 {
+    font-weight: bold;
+    display: inline-block;
+    margin: 10px 0 0;
+}
+
+article li {
+    margin: 10px 0;
 }

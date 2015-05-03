@@ -9,7 +9,7 @@
 		{
 			"name": "vin",
 			"commonAmount": 1.5,
-			"subsidedAmount": 0
+			"className": "wine"
 		}
 	],
 	"amounts": [
@@ -17,13 +17,13 @@
 			"name": "200 stk sigaretter / 250 g tobakk",
 			"originalAmount": 1,
 			"beerAmount": 1.5,
-			"subsided": true
+			"className": "tobacco"
 		},
 		{
 			"name": "liter brennevin",
 			"originalAmount": 1,
 			"beerAmount": 1.5,
-			"subsided": true
+			"className": "liquor"
 		}
 	]
 }

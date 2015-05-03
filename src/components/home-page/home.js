@@ -6,14 +6,19 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     this.initial_numberOfLitres = 0;
     this.initial_totalAmount = 0;
     this.initial_restAmount = 0;
+    this.minimal_amount = 0;
+    this.initial_subsidedAmount = 0;
+    this.initial_subsidedRange = 0;
     this.totalTravellers = 
-    ko.observable(this.initial_travellers, { persist: 'totalTravellers'});
+      ko.observable(this.initial_travellers, { persist: 'totalTravellers'});
     this.numberOfLitres = 
-    ko.observable(this.initial_numberOfLitres, { persist: 'numberOfLitres'});
+      ko.observable(this.initial_numberOfLitres, { persist: 'numberOfLitres'});
     this.totalAmount = ko.observable(this.initial_totalAmount);
     this.restAmount =  
-    ko.observable(this.initial_restAmount, { persist: 'restAmount'});
+      ko.observable(this.initial_restAmount, { persist: 'restAmount'});
     this.addedClassName = 'added';
+    this.rangeClassName = 'range';
+    this.amountClassName = 'amount';
     this.formats = ko.observableArray();
     this.units = ko.observableArray();
     this.reglementations = ko.observableArray();
@@ -28,30 +33,38 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
   };
 
   HomeViewModel.prototype.findTotalAmount = function() {
-    var totalAmount, initial_ranges_subsidedAmount = 0, inital_amounts_beerAmount = 0;
     var initial_beerAmount = this.reglementations().beer.initialAmount,
-    allPersons_beerAmount = initial_beerAmount * this.totalTravellers();
+    allPersons_beerAmount = initial_beerAmount * this.totalTravellers(),
+    rangesArray = this.ranges()(),
+    amountsArray = this.amounts()(),
+    totalAmount;
 
-    for(var i in this.ranges()) {
-      initial_ranges_subsidedAmount = 
-      initial_ranges_subsidedAmount + 
-      this.ranges()[i].commonAmount;
+    var ranges_subsides_available = 0,
+      ranges_already_subsided = 0;
+    for(var i in rangesArray) {
+      var newRange = rangesArray[i].commonAmount();
+      ranges_subsides_available = ranges_subsides_available + newRange;
+      ranges_already_subsided = ranges_already_subsided + rangesArray[i].subsidedRange();
     }
-    var allPersons_ranges_subsidedAmount = 
-    initial_ranges_subsidedAmount * this.totalTravellers();
+    ranges_subsides_available = 
+      ranges_subsides_available * this.totalTravellers()
+      - ranges_already_subsided;
 
-    for(var i in this.amounts()) {
-      inital_amounts_beerAmount = 
-      inital_amounts_beerAmount + 
-      this.amounts()[i].beerAmount;
+    var amounts_subsides_available = 0,
+      amounts_already_subsided = 0;
+    for(var i in amountsArray) {
+      var newAmount = amountsArray[i].beerAmount();
+      amounts_subsides_available = amounts_subsides_available + newAmount;
+      amounts_already_subsided = amounts_already_subsided + (amountsArray[i].subsidedAmount() * amountsArray[i].beerAmount());
     }
-    var allPersons_amounts_beerAmount = 
-    inital_amounts_beerAmount * this.totalTravellers();
+    amounts_subsides_available = 
+      amounts_subsides_available * this.totalTravellers()
+      - amounts_already_subsided;
 
     totalAmount = 
-    allPersons_beerAmount + 
-    allPersons_ranges_subsidedAmount + 
-    allPersons_amounts_beerAmount;
+      allPersons_beerAmount + 
+      ranges_subsides_available + 
+      amounts_subsides_available;
 
     this.totalAmount(totalAmount);
   };
@@ -64,8 +77,19 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     var that = this;
     $.getJSON('data/reglementations.json', function(jsondata) {
       that.reglementations(ko.mapping.toJS(jsondata.reglementations));
-      that.ranges(ko.mapping.toJS(jsondata.ranges));
-      that.amounts(ko.mapping.toJS(jsondata.amounts));
+      
+      var data = jsondata.ranges;
+      for(var i in data) {
+        data[i].subsidedRange = that.initial_subsidedRange;
+      }
+      that.ranges(ko.mapping.fromJS(data));
+
+      data = jsondata.amounts;
+      for(var i in data) {
+        data[i].subsidedAmount = that.initial_subsidedAmount;
+      }
+      that.amounts(ko.mapping.fromJS(data));
+
       that.updateData();
     });
 
@@ -83,16 +107,27 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
 
   HomeViewModel.prototype.loadLocalStorage = function() {
     if(this.supports_localstorage()) {
-      var addedClassName = this.addedClassName;
 
+      var addedClassName = this.addedClassName;
       for(var i in this.formats()()) {
         var currentItem = this.formats()()[i],
-        itemKey = currentItem.className() + '_' + addedClassName;
+        itemKey = addedClassName + '_' + currentItem.className();
 
         if(typeof localStorage[itemKey] !== 'undefined') {
           currentItem.addedNumber(Number(localStorage[itemKey]));
         }
       }
+
+      var rangeClassName = this.rangeClassName;
+      for(var i in this.ranges()()) {
+        var currentItem = this.ranges()()[i],
+        itemKey = rangeClassName + '_' + currentItem.className();
+
+        if(typeof localStorage[itemKey] !== 'undefined') {
+          currentItem.subsidedRange(Number(localStorage[itemKey]));
+        }
+      }
+
     }
   };
 
@@ -103,9 +138,13 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     this.loadData();
 
     if(this.supports_localstorage()) {
-      var addedClassName = this.addedClassName;
+      var rangeClassName = this.rangeClassName,
+        addedClassName = this.addedClassName;
       for(var key in localStorage) {
-        var position = key.indexOf('_' + addedClassName);
+        var position = key.indexOf(addedClassName);
+        if(position < 0) {
+          position = key.indexOf(rangeClassName);
+        }
         if(position > -1) {
           localStorage.removeItem(key);
         }
@@ -124,18 +163,69 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     var currentNumberOfTravellers = this.totalTravellers(),
     newNumberOfTravellers = currentNumberOfTravellers -1;
 
-    if(currentNumberOfTravellers > 1) {
+    if(currentNumberOfTravellers > this.initial_travellers) {
       this.totalTravellers(newNumberOfTravellers);
       this.updateData();
     }
   };
 
-  HomeViewModel.prototype.increaseAddedNumber = function(self, format) {
+  HomeViewModel.prototype.increaseRange = function(self, model) {
+    var change = +0.5;
+    self.updateRange(change, this);
+  };
+
+  HomeViewModel.prototype.decreaseRange = function(self, model) {
+    var change = -0.5;
+    self.updateRange(change, this);
+  };
+
+  HomeViewModel.prototype.updateRange = function(change, rangeObject) {
+    var newAmount = rangeObject.subsidedRange() + change, 
+    upperLimit = rangeObject.commonAmount(),
+    localStorageKey = this.rangeClassName + '_' + rangeObject.className();
+
+    if(this.validRangeOrAmount(newAmount, upperLimit)) {
+      rangeObject.subsidedRange(newAmount);
+      this.updateLocalStorage(localStorageKey, newAmount);
+      this.updateData();
+    }
+  };
+
+  HomeViewModel.prototype.increaseAmount = function(self, model) {
+    var change = +1;
+    self.updateAmount(change, this);
+  };
+
+  HomeViewModel.prototype.decreaseAmount = function(self, model) {
+    var change = -1;
+    self.updateAmount(change, this);
+  };
+
+  HomeViewModel.prototype.updateAmount = function(change, amountObject) {
+    var newAmount = amountObject.subsidedAmount() + change,
+    upperLimit = amountObject.originalAmount(),
+    localStorageKey = this.rangeClassName + '_' + amountObject.className();
+    if(this.validRangeOrAmount(newAmount, upperLimit)) {
+      amountObject.subsidedAmount(newAmount);
+      this.updateLocalStorage(localStorageKey, newAmount);
+      this.updateData();
+    }
+  };
+
+  HomeViewModel.prototype.validRangeOrAmount = function(newAmount, upperLimit) {
+    if(newAmount >= this.minimal_amount && newAmount <= (upperLimit * this.totalTravellers())) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  HomeViewModel.prototype.increaseAddedNumber = function(self, model) {
     var change = +1;
     self.updateAdded(change, this);
   };
 
-  HomeViewModel.prototype.decreaseAddedNumber = function(self, format) {
+  HomeViewModel.prototype.decreaseAddedNumber = function(self, model) {
     var change = -1;
     self.updateAdded(change, this);
   };
@@ -143,15 +233,12 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
   HomeViewModel.prototype.updateAdded = function(change, formatObject) {
     var newValue = formatObject.addedNumber() + change,
     addedNumberOfLitres = change * formatObject.size(),
-    localStorageKey = formatObject.className() + '_' + this.addedClassName;
+    localStorageKey = this.addedClassName + '_' + formatObject.className();
 
     if(this.validNumberOfLiters(addedNumberOfLitres)) {
       formatObject.addedNumber(newValue);
       this.updateTotal(addedNumberOfLitres);
-
-      if(this.supports_localstorage()) {
-        localStorage[localStorageKey] = newValue;
-      }
+      this.updateLocalStorage(localStorageKey, newValue);
     }
   };
 
@@ -171,6 +258,12 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
       return false;
     }
   };
+
+  HomeViewModel.prototype.updateLocalStorage = function(localStorageKey, newValue) {
+      if(this.supports_localstorage()) {
+        localStorage[localStorageKey] = newValue;
+      }
+  }
 
   HomeViewModel.prototype.supports_localstorage = function() {
     try {

@@ -6,23 +6,23 @@
     "formats": [
 	 {
 	    "size": 1.5,
-	    "className": "format_1_5_liter"
+	    "className": "1_5_liter"
 	},
 	 {
 	    "size": 1,
-	    "className": "format_1_liter"
+	    "className": "1_liter"
 	},
 	 {
 	    "size": 0.75,
-	    "className": "format_0_75_liter"
+	    "className": "0_75_liter"
 	},
 	{
 	    "size": 0.5,
-	    "className": "format_0_5_liter"
+	    "className": "0_5_liter"
 	},
 	{
 	    "size": 0.33,
-	    "className": "format_0_33_liter"
+	    "className": "0_33_liter"
 	}
     ]
 }
