@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nb-no">
+<html manifest="toll.manifest" lang="nb-no">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@
     <header>
       <nav-bar params="route: route"></nav-bar>
     </header>
-    <main role="main" data-bind="component: { name: route().page, params: route }">
+    <main role="main" data-bind="component: { name: route().page, params: route }, css: route().page">
     </main>
     <footer>
     </footer>

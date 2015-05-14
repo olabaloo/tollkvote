@@ -1,9 +1,13 @@
 {
 	"reglementations": {
 		"unit": "l",
+		"currency": "nok",
+		"currencyReadablePrefix": "kr ",
+		"currencyReadableSuffix": ",-",
 		"beer": {
 			"initialAmount": 2
-		}
+		},
+		"costOfDeclarationPerUnit": 20
 	},
 	"ranges": [
 		{

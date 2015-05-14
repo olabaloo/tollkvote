@@ -16,6 +16,7 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     this.totalAmount = ko.observable(this.initial_totalAmount);
     this.restAmount =  
       ko.observable(this.initial_restAmount, { persist: 'restAmount'});
+    this.additionalAmount = ko.observable(0);
     this.addedClassName = 'added';
     this.rangeClassName = 'range';
     this.amountClassName = 'amount';
@@ -24,12 +25,28 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     this.reglementations = ko.observableArray();
     this.ranges = ko.observableArray();
     this.amounts = ko.observableArray();
+    this.notExceedsFreeQuota = ko.observable(true);
+    this.exceedsFreeQuota = ko.observable(false);
     this.loadData();
+    this.costOfDeclaration = ko.observable('kr 0,-');
   }
 
   HomeViewModel.prototype.updateData = function() {
     this.findTotalAmount();
     this.findRestAmount();
+  };
+
+  HomeViewModel.prototype.findcostOfDeclaration = function() {
+    var costPrefix = this.reglementations().currencyReadablePrefix,
+    costSuffix = this.reglementations().currencyReadableSuffix,
+    numberOfLitres = this.additionalAmount(),
+    sats = this.reglementations().costOfDeclarationPerUnit,
+    costData = numberOfLitres * sats,
+    formattedCost = '';
+
+    costData = this.sanitizeNumber(costData, 0);
+    formattedCost = costPrefix + costData + costSuffix;
+    this.costOfDeclaration(formattedCost);
   };
 
   HomeViewModel.prototype.findTotalAmount = function() {
@@ -65,14 +82,22 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
       allPersons_beerAmount + 
       ranges_subsides_available + 
       amounts_subsides_available;
-
     this.totalAmount(totalAmount);
   };
 
   HomeViewModel.prototype.findRestAmount = function() {
     var restAmount = this.totalAmount() - this.numberOfLitres();
-    restAmount = Number((restAmount).toFixed(2));
+    restAmount = this.sanitizeNumber(restAmount, 3);
     this.restAmount(restAmount);
+    this.additionalAmount(-this.restAmount())
+    if(this.restAmount() >= 0) {
+      this.notExceedsFreeQuota(true);
+      this.exceedsFreeQuota(false);
+    } else {
+      this.notExceedsFreeQuota(false);
+      this.exceedsFreeQuota(true);
+      this.findcostOfDeclaration();
+    }
   };
 
   HomeViewModel.prototype.loadData = function() {
@@ -172,17 +197,23 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
   };
 
   HomeViewModel.prototype.increaseRange = function(self, model) {
-    var change = +0.5;
+    var change = +0.05;
     self.updateRange(change, this);
   };
 
   HomeViewModel.prototype.decreaseRange = function(self, model) {
-    var change = -0.5;
+    var change = -0.05;
     self.updateRange(change, this);
+  };
+
+  HomeViewModel.prototype.sanitizeNumber = function(number, numberOfDecimals) {
+    number = Number((number).toFixed(numberOfDecimals));
+    return number;
   };
 
   HomeViewModel.prototype.updateRange = function(change, rangeObject) {
     var newAmount = rangeObject.subsidedRange() + change, 
+    newAmount = this.sanitizeNumber(newAmount, 2),
     upperLimit = rangeObject.commonAmount(),
     localStorageKey = this.rangeClassName + '_' + rangeObject.className();
 
@@ -247,6 +278,8 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
   HomeViewModel.prototype.updateTotal = function(addedNumberOfLitres) {
     var currentNumberOfLitres = this.numberOfLitres(),
     newNumberOfLitres = currentNumberOfLitres + addedNumberOfLitres;
+
+    newNumberOfLitres = this.sanitizeNumber(newNumberOfLitres, 3);
 
     this.numberOfLitres(newNumberOfLitres);
     this.updateData();

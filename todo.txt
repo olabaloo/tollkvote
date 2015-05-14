@@ -1,19 +1,11 @@
-Lag appen så generell for tollkvota som mulig!
-Ikke bare øl, men også for vinflaskeformater/-kartonger.
-Lenke for `endre størrelser'
-- mulig å fjerne/legge til predefinerte størrelser
-- mulig også å fjerne alt
-- mulig å endre måleenhet for ALT, ikke for enkeltenheter.
+Legg til en range for vinvolum, så man kjapt kan slide til store størrelser.
 
-Småting her og nå:
-- `Legg til enheter', ikke `flasker'
-- differansen mellom tillatt og valgt:
- -- rund av til to desimaler (alltid vise to desimaler...?).
- -- håndter når differansen er negativ - fortell at fortolling er nødvendig!
- -- (senere: utregning av fortollingskostnad)
-- revurder hva som ikke hører hjemme i dataene, 
-	men som heller skal legges til programmatisk.
-- lag som offline-app (med cache-manifest)
+Lag legg til-funksjon for resten av aktuelle enheter. Trengs egentlig det?
+
+Slå sammen json-ene?
+
+Gulp:
+- base64-encode bildet, ha i css.
 
 Noe senere:
 Bruk extenders: http://knockoutjs.com/documentation/extenders.html
@@ -23,10 +15,18 @@ Bruk extenders: http://knockoutjs.com/documentation/extenders.html
 	- validering: Kun tillatt med tall
 	- lytte til endringer der (for totalen)
 
-Ølflaskestørrelser:
+Utgår: 
+Ikke bare øl, men også for vinflaskeformater/-kartonger.
+Lenke for `endre størrelser'
+- mulig å fjerne/legge til predefinerte størrelser
+- mulig også å fjerne alt
+- mulig å endre måleenhet for ALT, ikke for enkeltenheter.
+/utgår
 
-
-Hva med oz?
+*******************
+Ølflaskestørrelser: 
+*******************
+Ha alle i liter, oz/pint i parantes (de rundeste: hvis us oz uten desimaler, så den. Hvis imp oz uten desimaler, så den, etc.
 
 Hva med å skifte mellom oz og l for de enkelte oppføringer? Pint...? Andre enheter?
 - us fl. oz
@@ -34,14 +34,18 @@ Hva med å skifte mellom oz og l for de enkelte oppføringer? Pint...? Andre enh
 - nip: 1/3 pint
 - 750 ml (25.4 U.S. fl oz; 26.4 imp fl oz)
 - 650.6 ml (22 U.S. fl oz; 22.9 imp fl oz) 
+
 v - 568ml: pint: 20 imp. fl.oz, 19.2 us fl.oz
 v - 500 ml (16.9 U.S. fl oz; 17.6 imp fl oz)
 v - 355 ml (12.5 imp fl oz; 12.0 U.S. fl oz)
 v - 341 ml (12.0 imp fl oz; 11.5 U.S. fl oz)
 v - 330 ml (11.2 U.S. fl oz; 11.6 imp fl oz)
+
 - 300 ml (10.6 imp fl oz; 10.1 U.S. fl oz)
 - 284ml: half-pint: 10 imp. fl.oz, 9.6 us fl.oz
-v - 250 ml (8.8 imp fl oz; 8.5 U.S. fl oz)
+
+vv - 250 ml (8.8 imp fl oz; 8.5 U.S. fl oz)
+
 - 207.0 ml (7 U.S. fl oz; 7.3 imp fl oz)
 
 Bokser: 
@@ -49,16 +53,16 @@ http://en.wikipedia.org/wiki/Beverage_can#Standard_sizes:
 Comparison chart of various standards
 ml	imp fl oz	US fl oz
 1,000	35.2	33.8
-568	20[nb 1]	19.2
-500	17.6	16.9
+v 568	20[nb 1]	19.2
+v 500	17.6	16.9
 473	16.6	16[nb 2]
 440	15.5	14.9
 375	13.2	12.7
-355	12.5	12
+v 355	12.5	12
 350	12.3	11.8
-341	12.0	11.5
-330	11.6	11.2
-250	8.8	8.5
+v 341	12.0	11.5
+v 330	11.6	11.2
+v 250	8.8	8.5
 237	8.3	8.0
 222	7.8	7.5
 200	7.0	6.8
@@ -78,6 +82,10 @@ Vanlige vinflaskeformater:
 0,757
 1
 1,5
+
+*******************
+Dokumentasjon av ekstraoppsett: 
+*******************
 
 For å få knockout.mapping til å fungere:
 I home.js:

@@ -5,24 +5,39 @@
 		},
     "formats": [
 	 {
-	    "size": 1.5,
-	    "className": "1_5_liter"
-	},
-	 {
-	    "size": 1,
-	    "className": "1_liter"
-	},
-	 {
 	    "size": 0.75,
-	    "className": "0_75_liter"
+	    "className": "0_75_liter",
+	    "alternative": ""
+	},
+	 {
+	    "size": 0.568,
+	    "className": "5_68_liter",
+	    "alternative": "20 imp.fl.oz = pint"
 	},
 	{
 	    "size": 0.5,
-	    "className": "0_5_liter"
+	    "className": "0_5_liter",
+	    "alternative": ""
+	},
+	{
+	    "size": 0.355,
+	    "className": "0_355_liter",
+	    "alternative": "12 U.S.fl.oz"
+	},
+	{
+	    "size": 0.341,
+	    "className": "0_341_liter",
+	    "alternative": "12 imp fl oz"
 	},
 	{
 	    "size": 0.33,
-	    "className": "0_33_liter"
+	    "className": "0_33_liter",
+	    "alternative": ""
+	},
+	{
+	    "size": 0.25,
+	    "className": "0_25_liter",
+	    "alternative": ""
 	}
     ]
 }
