@@ -9,12 +9,12 @@
 	<!-- ko if: exceedsFreeQuota -->
 	<p>
 		<span>Du har med tilsammen</span> <span class='current amount' data-bind='text: numberOfLitres'></span> <span data-bind='text: units().long'></span> <span>øl.</span><br>
-			</p>
-		<p class='warning'>
-			<span>Det er <span class='amount' data-bind='text: additionalAmount'></span> <span data-bind='text: units().long'></span> for mye. <br>
-			Dette må fortolles.
-			Dersom du gjør forenklet fortolling, koster dette <span class='amount' data-bind='text: costOfDeclaration'></span>.</span>
-		</p>
+	</p>
+	<p data-bind='css: exceedsFreeQuotaClassName'>
+		<span>Det er <span class='amount' data-bind='text: additionalAmount'></span> <span data-bind='text: units().long'></span> for mye. <br>
+		Dette må fortolles.
+		Dersom du gjør forenklet fortolling, koster dette <span class='amount' data-bind='text: costOfDeclaration'></span>.</span>
+	</p>
 	<!-- /ko -->
 </header>
 <!-- ko if: formats -->
@@ -22,15 +22,15 @@
 	<h2>Legg til enheter:</h2>
 	<ul data-bind='foreach: formats()'>
 		<li data-bind='css: className'>
-			<button data-bind="click: $parent.decreaseAddedNumber.bind($data, $parent)">-</button>
+			<button data-bind='click: $parent.decreaseAddedNumber.bind($data, $parent)'>-</button>
 			<span data-bind='text: addedNumber, css: $parent.addedClassName'></span>
-			<button data-bind="click: $parent.increaseAddedNumber.bind($data, $parent)">+</button>
+			<button data-bind='click: $parent.increaseAddedNumber.bind($data, $parent)'>+</button>
 			<span class='suffix'>
 				<span data-bind='text: size' class='size'></span>
 				<span data-bind='text: $parent.units().short'></span>
 			</span>
 			<!-- ko if: alternative -->
-				<span data-bind='text: alternative' class='alternative'></span>
+			<span data-bind='text: alternative' class='alternative'></span>
 			<!-- /ko -->
 		</li>
 	</ul>
@@ -53,24 +53,24 @@
 			<h2>Hva skal du ha med av følgende:</h2>
 			<!-- ko if: amounts -->
 			<ul data-bind='foreach: amounts()' class='amounts'>
-				<li>
-					<button data-bind="click: $parent.decreaseAmount.bind($data, $parent)">-</button>
+				<li data-bind='css: className'>
+					<button data-bind='click: $parent.decreaseAmount.bind($data, $parent)'>-</button>
 					<span data-bind='text: subsidedAmount, css: $parent.addedClassName'></span> 
 					<span data-bind='text: name' class='subsidedAmount'></span> 
-					<button data-bind="click: $parent.increaseAmount.bind($data, $parent)">+</button>
+					<button data-bind='click: $parent.increaseAmount.bind($data, $parent)'>+</button>
 				</li>
 			</ul>
 			<!-- /ko -->
 			<!-- ko if: ranges -->
 			<ul data-bind='foreach: ranges()' class='ranges'>
-				<li>
-					<button data-bind="click: $parent.decreaseRange.bind($data, $parent)">-</button>
+				<li data-bind='css: className'>
+					<button data-bind='click: $parent.decreaseRange.bind($data, $parent)'>-</button>
 					<span data-bind='text: subsidedRange, css: $parent.addedClassName'></span>
 					<span class='subsidedAmount'>
 						<span data-bind='text: $parent.units().long'></span>
 						<span type='text' data-bind='text: name'></span>
 					</span>
-					<button data-bind="click: $parent.increaseRange.bind($data, $parent)">+</button>
+					<button data-bind='click: $parent.increaseRange.bind($data, $parent)'>+</button>
 				</li>
 			</ul>
 			<!-- /ko -->
@@ -85,7 +85,7 @@
 		<li>Som øl regnes også sterkøl, opptil 22% alkohol.</li>
 		<li>Drikke under 2,5% alkohol regnes som alkoholfri <br>
 			(og er dermed unntatt kvotebestemmelsene).</li>
-		<li>Sider regnes som vin, ikke øl. Er sideren på under 4,7%, <br>
+			<li>Sider regnes som vin, ikke øl. Er sideren på under 4,7%, <br>
 				kan den innlemmes i ølkvoten. Sterkere sider må innlemmes i vinkvoten.</li>
-	</ul>
-</footer>
+			</ul>
+		</footer>

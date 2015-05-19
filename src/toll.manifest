@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-#v1
+#v16
 
 CACHE:
 index.html
@@ -12,7 +12,7 @@ data/formatsAndUnits.json
 data/reglementations.json
 css/reset.css
 css/styles.css
-css/img/toll_kontroll.png
+css/img/tollkvote.png
 app/require.config.js
 app/router.js
 app/startup.js

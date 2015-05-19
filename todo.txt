@@ -1,11 +1,11 @@
+Bug:
+Oransje, ikke rødt, hvis over grensa, men under 1 kr.
+
 Legg til en range for vinvolum, så man kjapt kan slide til store størrelser.
 
 Lag legg til-funksjon for resten av aktuelle enheter. Trengs egentlig det?
 
 Slå sammen json-ene?
-
-Gulp:
-- base64-encode bildet, ha i css.
 
 Noe senere:
 Bruk extenders: http://knockoutjs.com/documentation/extenders.html
@@ -16,6 +16,10 @@ Bruk extenders: http://knockoutjs.com/documentation/extenders.html
 	- lytte til endringer der (for totalen)
 
 Utgår: 
+Gulp:
+- base64-encode bildet, ha i css.
+Går ikke med startscreen-ikon.
+
 Ikke bare øl, men også for vinflaskeformater/-kartonger.
 Lenke for `endre størrelser'
 - mulig å fjerne/legge til predefinerte størrelser

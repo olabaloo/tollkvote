@@ -18,6 +18,10 @@ main {
 	max-width: 100%;
 }
 
+main header { 
+    height: 120px;
+}
+
 /* About-page: */
 .about-page {
     counter-reset: para;
@@ -189,7 +193,7 @@ article li {
 
 article {
     display: inline-block;
-    width: 11em;
+    width: 11.5em;
     padding: 0 1em;
 }
 
@@ -265,12 +269,12 @@ body > header {
     width: 100%;
 }
 nav {
-    max-width: 582px;
-    margin: 0 auto;
-    background: url(img/toll_kontroll.png) no-repeat calc(50% - 180px) center;
-    background-size: auto 80%;
-    padding: 0 0 0 70px;
-    display: block;
+    /* max-width: 582px; */
+    /* margin: 0 auto; */
+    /* background: url(img/toll_kontroll.png) no-repeat calc(50% - 180px) center; */
+    /* background-size: auto 80%; */
+    /* padding: 0 0 0 70px; */
+    /* display: block; */
     height: 100%;
 }
 nav a {
@@ -293,8 +297,11 @@ main footer:before {
     border: 2px outset buttonface;
     background-color: buttonface;
 }
+.neutral {
+    background: rgba(255,0,0,0.2);
+}
 .warning {
-    background: red;
+    background: rgba(255,0,0,1);
 }
 /* /colors */
 
@@ -303,7 +310,7 @@ main footer:before {
     aside { display: block; margin: 0 auto; text-align: center;}
 
     nav {
-        background-position-x: 15%;
+        /* background-position-x: 15%; */
     }
     nav li {
         display: block;
