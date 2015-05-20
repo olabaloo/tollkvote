@@ -107,9 +107,16 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
       var currentItem = rangesArray[i],
       newRange = currentItem.commonAmount();
       ranges_subsides_available = ranges_subsides_available + newRange;
-      ranges_already_subsided = ranges_already_subsided + currentItem.subsidedRange();
-    }
 
+      if(this.supports_localstorage()) {
+        var localStorageKey = this.rangeClassName + '_' + currentItem.className();
+        var newSubsided = localStorage[localStorageKey] * 1;
+        if(isNaN(newSubsided)) {
+          newSubsided = 0;
+        }
+        ranges_already_subsided = ranges_already_subsided + newSubsided;
+      }
+    }
     ranges_subsides_available = 
     ranges_subsides_available * this.totalTravellers() - ranges_already_subsided;
 
@@ -119,7 +126,15 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
       var currentItem = amountsArray[i], 
       newAmount = currentItem.beerAmount();
       amounts_subsides_available = amounts_subsides_available + newAmount;
-      amounts_already_subsided = amounts_already_subsided + (currentItem.subsidedAmount() * currentItem.beerAmount());
+
+      if(this.supports_localstorage()) {
+        var localStorageKey = this.amountClassName + '_' + currentItem.className();
+        var newSubsided = localStorage[localStorageKey] * 1;
+        if(isNaN(newSubsided)) {
+          newSubsided = 0;
+        }
+        amounts_already_subsided = amounts_already_subsided + newSubsided;
+      }
     }
 
     amounts_subsides_available = 
@@ -131,14 +146,16 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
     amounts_subsides_available;
 
     totalAmount = this.sanitizeNumber(totalAmount, 3);
+
     this.totalAmount(totalAmount);
   };
 
   HomeViewModel.prototype.findRestAmount = function() {
     var restAmount = this.totalAmount() - this.numberOfLitres();
+
     restAmount = this.sanitizeNumber(restAmount, 3);
     this.restAmount(restAmount);
-    this.additionalAmount(-this.restAmount())
+    this.additionalAmount(-this.restAmount());
     if(this.restAmount() >= 0) {
       this.notExceedsFreeQuota(true);
       this.exceedsFreeQuota(false);
@@ -230,9 +247,9 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
 
     for(var i in rangesArray) {
       var currentItem = rangesArray[i],
-        maxRange = currentItem.commonAmount() * this.totalTravellers(),
-        currentClassName = currentItem.className(),
-        currentValue = $('.ranges > .' + currentClassName + ' > .added').html();
+      maxRange = currentItem.commonAmount() * this.totalTravellers(),
+      currentClassName = currentItem.className(),
+      currentValue = $('.ranges > .' + currentClassName + ' > .added').html();
       if(currentValue > maxRange) {
         currentItem.subsidedRange(maxRange);
       }
@@ -240,9 +257,9 @@ define(["knockout", "komapping", "localstorage", "jquery", "text!./home.html"], 
 
     for(var i in amountsArray) {
       var currentItem = amountsArray[i],
-        maxAmount = currentItem.originalAmount() * this.totalTravellers(),
-        currentClassName = currentItem.className(),
-        currentValue = $('.amounts > .' + currentClassName + ' > .added').html();
+      maxAmount = currentItem.originalAmount() * this.totalTravellers(),
+      currentClassName = currentItem.className(),
+      currentValue = $('.amounts > .' + currentClassName + ' > .added').html();
       if(currentValue > maxAmount) {
         currentItem.subsidedAmount(maxAmount);
       }
